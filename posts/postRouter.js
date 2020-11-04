@@ -2,8 +2,20 @@ const express = require('express');
 
 const router = express.Router();
 
+const posts = require('./postDb.js')
+
 router.get('/', (req, res) => {
-  // do your magic!
+  posts.get(req.query) // still not sure if this does what I think it does
+  // query should allow for sorting and the like via the url?
+  .then(posts => {
+    res.status(200).json(posts)
+  })
+  .catch(err => {
+    consolelog(err)
+    res.status(500).json({
+      message: "server error getting posts"
+    })
+  })
 });
 
 router.get('/:id', (req, res) => {
